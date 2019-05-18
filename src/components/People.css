@@ -1,0 +1,10 @@
+li{
+    list-style: none;
+}
+.person__list{
+    width:50%;
+}
+.card__container{
+    border:1px solid grey;
+
+}
