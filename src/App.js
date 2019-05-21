@@ -7,11 +7,17 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      data: []
+      people:{
+        data: [],
+        isFetching: true,
+      } 
     }
     this.getData=this.getData.bind(this);
-    this.getData()
+   
   }
+componentDidMount(){
+  this.getData()
+}
 
   getData(){
     fetch("https://randomuser.me/api/?results=50")
@@ -19,19 +25,35 @@ class App extends React.Component {
     .then(data=>{
       const info=data.results;
       this.setState({
-        data: info,
+        people: {
+          data: info,
+          isFetching: false
+        }
       })
     })
   }
 
   render(){
     return (
+    
       <div className="App">
+     
+      <header>
       <h1>Random People</h1>
-        <People 
-        info={this.state.data}
-        />
+      </header>
+      {this.state.people.isFetching
+      ? (
+        <p>Loading...</p>
+        
+        )
+      : (
+        <People info={this.state.people.data} />
+      )
+      }
+      
+        
       </div>
+      
     );
   }
 }

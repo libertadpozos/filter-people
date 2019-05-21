@@ -1,23 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import Card from './Card'
 
 class People extends React.Component{
     render(){
         const {info} = this.props
         console.log(info)
 
-        if (!info.length){
-            return <p>Loading...</p>
-        }
-        else {
             return (
                 <ul>
                     {info
                         .map(person=>
-                            <li>
-                                <img src={person.picture.medium}/>
-                                <p>{`${person.name.first} ${person.name.last}`}</p>
-                                <p>{person.gender}</p>
-                                <p>{person.location.city}</p>
+                            <li key={person.login.uuid}>
+                                <Card 
+                                name={`${person.name.first} ${person.name.last}`}
+                                img={person.picture.thumbnail}
+                                city={person.location.city}
+                                age={person.dob.age}
+                                />
+                                
                             </li>
                             
                             )
@@ -25,10 +26,11 @@ class People extends React.Component{
                 </ul>
             )
         }
-       
-
-       
-    }
-}
+    };
+    
+    
+    People.propTypes={
+        info: PropTypes.arrayOf(PropTypes.object).isRequired
+    }   
 
 export default People;
