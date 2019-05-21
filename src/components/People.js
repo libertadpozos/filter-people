@@ -5,8 +5,6 @@ import Card from './Card'
 class People extends React.Component{
     render(){
         const {info} = this.props
-        console.log(info)
-
             return (
                 <ul>
                     {info
