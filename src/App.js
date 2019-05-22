@@ -2,6 +2,9 @@ import React from 'react';
 import './App.css';
 import People from './components/People'
 import Filters from './components/Filters'
+import {fetchData} from './data/FetchData'
+import {Switch, Route} from 'react-router-dom';
+import Card from './components/Card'
 
 
 class App extends React.Component {
@@ -27,8 +30,7 @@ componentDidMount(){
 }
 
   getData(){
-    fetch("https://randomuser.me/api/?results=50")
-    .then(response=> response.json())
+    fetchData()
     .then(data=>{
       const info=data.results;
       this.setState(prevState=>{
@@ -100,25 +102,47 @@ componentDidMount(){
         )
       : (
         <React.Fragment>
-        <Filters 
-        onGenderChange={this.handlerGenderFilter}
-        genders={genders}
-        allCities={allCities}
-        cities={cities}
-        onCityChange={this.handlerCityFilter}
-        />
-        <People 
-        info={data
-        .filter(user => {
-          if (!genders.length){
-            return true 
-          } else{
-            return genders.includes(user.gender)
-          }
-        } )
-        .filter(user => !cities.length || cities.includes(user.location.city))
-      }
-         />
+        <Switch> 
+
+         
+          <Route exact path="/" render={()=>
+            <React.Fragment>
+           <Filters 
+           onGenderChange={this.handlerGenderFilter}
+           genders={genders}
+           allCities={allCities}
+           cities={cities}
+           onCityChange={this.handlerCityFilter}
+           />
+           <People 
+           info={data
+           .filter(user => {
+             if (!genders.length){
+               return true 
+             } else{
+               return genders.includes(user.gender)
+             }
+           } )
+           .filter(user => !cities.length || cities.includes(user.location.city))
+         }
+            />
+            </React.Fragment>
+          }/>
+
+          <Route path="/card/:cardId" render={routerProps=> <Card match={routerProps.match} info={data}/>} 
+         
+
+            
+          />
+
+            
+
+
+          
+        </Switch>
+       
+       
+        
         </React.Fragment>
       )
       }

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from './Card'
+ import {Link} from 'react-router-dom';
+
 
 class People extends React.Component{
     render(){
@@ -9,15 +10,15 @@ class People extends React.Component{
                 <ul>
                     {info
                         .map(person=>
+                          
                             <li key={person.login.uuid}>
-                                <Card 
-                                name={`${person.name.first} ${person.name.last}`}
-                                img={person.picture.thumbnail}
-                                city={person.location.city}
-                                age={person.dob.age}
-                                />
-                                
+                              <Link to={`/card/${person.login.uuid}`} >
+                            <h2>{`${person.name.first} ${person.name.last}`}</h2>
+                        
+                               
+                             </Link>   
                             </li>
+                            
                             
                             )
                     }
